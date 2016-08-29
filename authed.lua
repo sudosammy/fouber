@@ -1,3 +1,17 @@
+-- Copyright 2016 Sam Reid
+
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+
+--     http://www.apache.org/licenses/LICENSE-2.0
+
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+
 local composer = require('composer')
 local sqlite = require('sqlite3')
 local widget = require('widget')
@@ -37,7 +51,7 @@ ui_group:insert(background)
 
 -- Help button
 local help_button = widget.newButton {
-	left = 170,
+	left = 175,
 	top = 20,
 	labelColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
 	id = 'help_button',
@@ -187,8 +201,20 @@ for row in db:urows("SELECT COALESCE((SELECT MAX(num_rides) FROM history), 0)") 
 		native.showAlert('Welcome! Now what?',
 			'Looks like it\'s your first time using ' ..app_name.. '! Here\'s the low-down: ' ..app_name.. ' will calculate the star rating your most recent Uber driver gave you. You need to open ' ..app_name.. ' after each ride otherwise the rating it calculates won\'t be accurate. Have fun!', {'Okay'})
 
-		-- stop the rest of the code running, we don't need it.
-		return -- this doesn't do that ^
+		local driver_text = {
+			text = 'Come back after you\'ve taken a ride',
+			x = 160,
+			y = 200,
+			width = 300,
+			align = 'center',
+			font = font,
+			fontSize = 26,
+			anchorY = 0,
+		}
+		-- supporting text for page
+		local driver_text = display.newText(driver_text)
+		driver_text:setTextColor(0, 0, 0)
+		ui_group:insert(driver_text)
 	end
 end
 
@@ -285,7 +311,22 @@ function main_func()
 
 			else
 				native.showAlert('Ready. Set. Go!',
-					'You\'re all set to ' ..app_name.. '! Remember to open the app after EVERY Uber ride to accurately calculate what your driver rated you.', {'Okay'})	
+					'You\'re all set to ' ..app_name.. '! Remember to open the app after EVERY Uber ride to accurately calculate what your driver rated you.', {'Okay'})
+
+				local driver_text = {
+					text = 'Come back after you\'ve taken a ride',
+					x = 160,
+					y = 200,
+					width = 300,
+					align = 'center',
+					font = font,
+					fontSize = 26,
+					anchorY = 0,
+				}
+				-- supporting text for page
+				local driver_text = display.newText(driver_text)
+				driver_text:setTextColor(0, 0, 0)
+				ui_group:insert(driver_text)
 			end
 		end
 
