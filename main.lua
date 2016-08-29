@@ -27,7 +27,7 @@ local func = require('functions')
 
 -- Globals
 display.setStatusBar(display.DarkStatusBar) -- show dark status bar with app
-github_url = 'https://github.com/sudosammy/catscatscatscats'
+github_url = 'https://github.com/sudosammy/fouber'
 version = '0.1'
 app_name = 'Fouber'
 
