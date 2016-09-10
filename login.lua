@@ -12,14 +12,14 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local composer = require('composer')
-local sqlite = require('sqlite3')
-local widget = require('widget')
-local font = 'HelveticaNeue' or system.nativeFont
-local json = require('json')
-local func = require('functions')
-local scene = composer.newScene()
-local ui_group = display.newGroup()
+local composer 	= require('composer')
+local sqlite 	= require('sqlite3')
+local widget 	= require('widget')
+local font 		= 'HelveticaNeue' or system.nativeFont
+local json 		= require('json')
+local func 		= require('functions')
+local scene 	= composer.newScene()
+local ui_group 	= display.newGroup()
 
 --------------------------------------------------------------------------
 -- Revieve callback from Uber, check repsponse, add to db if token present

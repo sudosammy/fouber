@@ -13,26 +13,26 @@
 -- limitations under the License.
 
 -- DEBUG - set all to false to disable
-debug_gen = false
-debug_force_auth = false
-debug_show_requests = false
-debug_show_creds = false
-debug_disable_updating = true -- leave this as true, updating function isn't fully operational
+debug_gen 				= false
+debug_force_auth 		= false
+debug_show_requests 	= false
+debug_show_creds 		= false
+debug_disable_updating 	= false
 -- /DEBUG
 
-local composer = require('composer')
-local sqlite = require('sqlite3')
-local json = require('json')
-local func = require('functions')
+local composer 	= require('composer')
+local sqlite 	= require('sqlite3')
+local json 		= require('json')
+local func 		= require('functions')
+local v 		= require('semver')
 
 -- Globals
+version 		= v('1.0.1')
+github_url 		= 'https://github.com/sudosammy/fouber'
+app_name 		= 'Fouber'
+_W 				= display.pixelWidth
+_H 				= display.pixelHeight
 display.setStatusBar(display.DarkStatusBar) -- show dark status bar with app
-github_url = 'https://github.com/sudosammy/fouber'
-version = '0.1'
-app_name = 'Fouber'
-
-_W = display.pixelWidth
-_H = display.pixelHeight
 
 if debug_gen then
 	print('W: ' .._W)
@@ -51,11 +51,17 @@ local function check_updates(event)
 		print(event.response)
 		generic_error_fatal()
 	else
-		if version < event.response then
+		local github_version = v(event.response)
+		
+		if debug_gen then
+			print(event.response ..' = '.. github_version)
+		end
+		
+		if version < github_version then
 			-- outdated
 			native.showAlert('New Version Available :D',
-				'Wow! Can you believe it. A new version is available, want to go to the GitHub page now to update?', {'Nah, next time', 'Update!'}, goto_github)
-		elseif version == event.response then
+				'Wow! Can you believe it? A new version is available. Want to go to the GitHub page now to update?', {'Nah, next time', 'Update!'}, goto_github)
+		elseif version == github_version then
 			return -- current version
 		else
 			native.showAlert('Super Secret Popup', 'hahaha. cats') -- newer than newest version?
@@ -64,7 +70,7 @@ local function check_updates(event)
 end
 
 if not debug_disable_updating then
-	network.request(github_url ..'/version.txt', 'GET', check_updates) -- make update request
+	network.request(github_url ..'/VERSION', 'GET', check_updates) -- make update request
 end
 
 local function check_auth(event)

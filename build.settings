@@ -17,8 +17,9 @@ settings =
 	excludeFiles =
 	{
 		-- Include only the necessary icon files on each platform
-		iphone = { "Icon-*dpi.png", },
-		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png", },
+		all = { "git-files/*", "compiled/*", "README.md", "VERSION" },
+		iphone = { "Icon-*dpi.png" },
+		android = { "Icon.png", "Icon-Small-*.png", "Icon*@2x.png" },
 	},
 
 	--

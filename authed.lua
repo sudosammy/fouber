@@ -12,14 +12,14 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-local composer = require('composer')
-local sqlite = require('sqlite3')
-local widget = require('widget')
-local font = 'HelveticaNeue' or system.nativeFont
-local json = require('json')
-local func = require('functions')
-local scene = composer.newScene()
-local ui_group = display.newGroup()
+local composer 	= require('composer')
+local sqlite 	= require('sqlite3')
+local widget 	= require('widget')
+local font 		= 'HelveticaNeue' or system.nativeFont
+local json 		= require('json')
+local func 		= require('functions')
+local scene 	= composer.newScene()
+local ui_group 	= display.newGroup()
 
 -------------------------
 -- Forward declarations
@@ -148,7 +148,7 @@ function save_ride_history(event)
 		generic_error_fatal()
 	else
 		local num_rides = parse_ride_history(event.response) -- get number of trips
-		local ride_history = json.decode(event.response) -- what does this look like if the user has no Uber rides yet?
+		local ride_history = json.decode(event.response)
 		-- process and save to db
 		for key, trip in pairs(ride_history['trips']) do
 			local stmt = "INSERT OR IGNORE INTO history (num_rides, most_recent_ride) VALUES ('" ..num_rides.. "', '" ..trip['date'].. "')"
@@ -183,7 +183,7 @@ function update_db()
 	call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, body, save_user_rating)
 
 	-- save history
-	call_uber('https://cn-dc1.oojoovae.org/support/users/' ..row['user_id'].. '/trips?user_type=client&locale=en_GB&token=' ..row['token'].. '&offset=0&limit=1000', 'GET', nil, nil, save_ride_history)
+	call_uber('https://cn-dc1.oojoovae.org/support/users/' ..row['user_id'].. '/trips?user_type=client&locale=en_GB&token=' ..row['token'].. '&offset=0&limit=500', 'GET', nil, nil, save_ride_history)
 end
 
 
@@ -241,7 +241,7 @@ function get_ride_history(event)
 	end
 end
 
-call_uber('https://cn-dc1.oojoovae.org/support/users/' ..row['user_id'].. '/trips?user_type=client&locale=en_GB&token=' ..row['token'].. '&offset=0&limit=1000', 'GET', nil, nil, get_ride_history)
+call_uber('https://cn-dc1.oojoovae.org/support/users/' ..row['user_id'].. '/trips?user_type=client&locale=en_GB&token=' ..row['token'].. '&offset=0&limit=500', 'GET', nil, nil, get_ride_history)
 
 function get_stars(event)
 	if event.isError then
@@ -465,7 +465,7 @@ end
 function scene:destroy(event)
 	-- Code here runs prior to the removal of scene's view
 	ui_group:removeSelf()
-	db:close() -- bye
+	db:close() -- given the db isn't closed anywhere else in this scene maybe we're leaving it open? Investigate
 end
 
 ----------------------------------
