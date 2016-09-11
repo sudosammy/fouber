@@ -29,7 +29,7 @@ Fouber puts you in the driver's seat (figuratively) and calculates exactly what 
 **Build From Source Way (For Jailbroken Devices):** TBA
 
 ### Updating
-I recommend updating when available; however, the update will overwrite the applications local database and you will be required to re-login. This means you'll loose your most recent driver rating. So don't update the app before viewing what your driver gave you!
+I recommend updating when available; however, the update will overwrite the applications local database and you will be required to re-login. This means you'll lose your most recent driver rating. So don't update the app before viewing what your driver gave you!
 
 You can update by following the steps you took to install the app. Just re-download (or compile) and install on your device. The app will automatically update, so no need to uninstall the existing version first. If you have trouble or the update creates a new application icon you can uninstall the old version using the normal application uninstall methods for your device.
 
