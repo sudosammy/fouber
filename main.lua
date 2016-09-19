@@ -27,7 +27,7 @@ local func 		= require('functions')
 local v 		= require('semver')
 
 -- Globals
-version 		= v('1.0.1')
+version 		= v('1.0.2')
 github_url 		= 'https://github.com/sudosammy/fouber'
 app_name 		= 'Fouber'
 _W 				= display.pixelWidth
