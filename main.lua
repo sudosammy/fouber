@@ -70,7 +70,7 @@ local function check_updates(event)
 end
 
 if not debug_disable_updating then
-	network.request(github_url ..'/VERSION', 'GET', check_updates) -- make update request
+	network.request('https://raw.githubusercontent.com/sudosammy/fouber/master/VERSION', 'GET', check_updates) -- make update request
 end
 
 local function check_auth(event)
@@ -103,8 +103,7 @@ for row in db:urows('SELECT COUNT(*) FROM auth') do
 				row['user_id'] ~= '' or
 				row['token'] ~= '' then
 				-- test token with API call
-				local star_rating_request = '{"locale":"en_GB","uuid":"' ..row['user_id'].. '","problem_id":"e9302f73-8625-427f-abf7-dbe7ab25af7d","token":"' ..row['token'].. '"}'
-				call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request, check_auth)
+				call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request(row['user_id'], row['token']), check_auth)
 			else
 				composer.gotoScene('login')	-- if no user exists send to login page
 			end

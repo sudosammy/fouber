@@ -18,6 +18,7 @@
 -- Convenient
 -- 
 -----------------------------------------------------------------------------------------
+local json = require('json') -- we do JSON things in here
 
 function show_help(event)
 	if event.phase == 'ended' then
@@ -29,6 +30,15 @@ end
 function generic_error_fatal()
 	native.showAlert('It\'s Broke :(', 'There was an unrecoverable error. I am so sorry.')
 	native.requestExit()
+end
+
+function star_rating_request(user_id, token)
+	return json.encode({
+		['locale'] = 'en_GB',
+		['uuid'] = user_id,
+		['problem_id'] = 'e9302f73-8625-427f-abf7-dbe7ab25af7d',
+		['token'] = token,
+	})
 end
 
 function call_uber(url, method, req_headers, req_body, callback)

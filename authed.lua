@@ -179,8 +179,7 @@ end
 
 function update_db()
 	-- save star rating
-	local body = '{"locale":"en_GB","uuid":"' ..row['user_id'].. '","problem_id":"e9302f73-8625-427f-abf7-dbe7ab25af7d","token":"' ..row['token'].. '"}'
-	call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, body, save_user_rating)
+	call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request(row['user_id'], row['token']), save_user_rating)
 
 	-- save history
 	call_uber('https://cn-dc1.oojoovae.org/support/users/' ..row['user_id'].. '/trips?user_type=client&locale=en_GB&token=' ..row['token'].. '&offset=0&limit=500', 'GET', nil, nil, save_ride_history)
@@ -252,8 +251,7 @@ function get_stars(event)
 	end
 end
 
-local body = '{"locale":"en_GB","uuid":"' ..row['user_id'].. '","problem_id":"e9302f73-8625-427f-abf7-dbe7ab25af7d","token":"' ..row['token'].. '"}'
-call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, body, get_stars)
+call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request(row['user_id'], row['token']), get_stars)
 
 
 function main_func()

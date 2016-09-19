@@ -132,7 +132,10 @@ function submit_login(event)
 				['x-uber-client-name'] = 'client',
 				['x-uber-device'] = 'android',
 			}
-			local body = '{"password":"' ..password.. '","username":"' ..email_addr.. '"}'
+			local body = json.encode({
+				['password'] = password,
+				['username'] = email_addr,
+			})
 			call_uber('https://cn-dca1.uber.com/rt/users/login', 'POST', headers, body, authenticate)
 		end
 	end

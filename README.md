@@ -5,16 +5,16 @@ Fouber (pronounced foobar) will calculate what your Uber driver rated you as a p
 ### Why?
 > The rating system works to make sure that the most respectful riders and drivers are using Uber. Ratings are always reported as averages, and **neither riders nor drivers will see the individual rating left for a particular trip**.
 
-How are you meant to rate your driver without knowing what they rated you first?! The possibility exists in which you rate your driver five stars only for them to rate you one and drive away chuckling.
+How are you meant to gauge your level of *jerkness* without knowing what your Uber driver rated you?! 
 
-Fouber puts you in the driver's seat (figuratively) and calculates exactly what your last driver rated you so you can counter rate accordingly.
+Fouber puts you in the driver's seat (figuratively) and calculates exactly what your last driver rated you so you can ~~counter rate accordingly~~ self-assess what led them to think you're a jerk!
 
 **Note:** Uber has an aggressive rating upkeep requirement for drivers. You could be taking someone's source of income away by rating them badly in retaliation.
 
 ![Image](git-files/drate.png?raw=true)
 
 ### Installation - Android
-**Easy Way:** Download the ```.apk``` file from the ```compiled/Android/``` directory and move it onto your device (better yet, download it from your Android device). You will need to accept the installation from an unknown source. Here's a video:
+**Easy Way:** Download the ```.apk``` file from the ```compiled/Android/``` directory and move it onto your device. You will need to accept the installation from an unknown source. Here's a video:
 
 ![Image](git-files/android-install.gif?raw=true)
 
@@ -36,12 +36,11 @@ You can update by following the steps you took to install the app. Just re-downl
 ### Security Concerns
 **If your device is compromised - assume your Uber account is too** This app stores your Uber API ```userid``` and ```token```. These are used to make private API calls and can perform a number of actions under your Uber account. If your device is compromised you won't be able to ensure the confidentiality of your Uber account.
 
-**Don't use the app on networks you don't trust** Little sanitisation is performed on the response from the Uber API. This means in a Man-in-the-Middle (MitM) scenario an attacker could possibly perform attacks against the app and potentially recover your Uber ```userid``` and ```token```. I wouldn't open the app on public WiFi.
+**Don't use the app on networks you don't trust** Little sanitisation is performed on the response from the Uber API. This means in a Man-in-the-Middle (MitM) scenario an attacker could possibly perform attacks against the app and recover your Uber ```userid``` and ```token```. I wouldn't open the app on public WiFi.
 
 ### Known Bugs/Quirks
  - If you cancel a ride the driver doesn't rate you but the ride is still included in your history count. This likely affects the accuracy of Fouber (haven't tested)
- - No logout functionality
- - If the rider hasn't taken any rides before using Fouber it might just crash (haven't tested)
+ - If the rider hasn't taken any rides before using Fouber; it might just crash (haven't tested)
 
 ### Future Improvements (Don't hold your breath)
  - iOS install instructions
