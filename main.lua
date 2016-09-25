@@ -20,28 +20,34 @@ debug_show_creds 		= false
 debug_disable_updating 	= false
 -- /DEBUG
 
+-- Globals
+_version 		= '1.1.0'
+_github_url 	= 'https://github.com/sudosammy/fouber'
+_app_name 		= 'Fouber'
+_W 				= display.pixelWidth
+_H 				= display.pixelHeight
+display.setStatusBar(display.DarkStatusBar) -- show dark status bar with app
+
 local composer 	= require('composer')
 local sqlite 	= require('sqlite3')
 local json 		= require('json')
 local func 		= require('functions')
 local v 		= require('semver')
 
--- Globals
-version 		= v('1.0.2')
-github_url 		= 'https://github.com/sudosammy/fouber'
-app_name 		= 'Fouber'
-_W 				= display.pixelWidth
-_H 				= display.pixelHeight
-display.setStatusBar(display.DarkStatusBar) -- show dark status bar with app
-
-if debug_gen then
-	print('W: ' .._W)
-	print('H: ' .._H)
-end
-
 -- DB open
 local path = system.pathForFile('juber.db', system.DocumentDirectory)
 local db = sqlite3.open(path)
+
+local function update(event)
+	if event.action == 'clicked' then
+		local i = event.index
+		if i == 1 then
+			main()
+		elseif i == 2 then -- second button (More Info) was clicked
+			system.openURL(_github_url)
+		end
+	end
+end
 
 ---------------------
 -- Check for Updates
@@ -53,16 +59,12 @@ local function check_updates(event)
 	else
 		local github_version = v(event.response)
 		
-		if debug_gen then
-			print(event.response ..' = '.. github_version)
-		end
-		
-		if version < github_version then
+		if v(_version) < github_version then
 			-- outdated
 			native.showAlert('New Version Available :D',
-				'Wow! Can you believe it? A new version is available. Want to go to the GitHub page now to update?', {'Nah, next time', 'Update!'}, goto_github)
-		elseif version == github_version then
-			return -- current version
+				'Wow! Can you believe it? A new version is available. Want to go to the GitHub page now to update?', {'Nah, next time', 'Update!'}, update)
+		elseif v(_version) == github_version then
+			main() -- current version
 		else
 			native.showAlert('Super Secret Popup', 'hahaha. cats') -- newer than newest version?
 		end
@@ -95,22 +97,23 @@ end
 --------------------------------------------------
 -- Check if user exists and redirect accordingly
 --------------------------------------------------
-for row in db:urows('SELECT COUNT(*) FROM auth') do
-	if row == 1 then
-		for row in db:nrows('SELECT * FROM auth') do
-			if row['user_id'] ~= nil or
-				row['token'] ~= nil or
-				row['user_id'] ~= '' or
-				row['token'] ~= '' then
-				-- test token with API call
-				call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request(row['user_id'], row['token']), check_auth)
-			else
-				composer.gotoScene('login')	-- if no user exists send to login page
+function main()
+	for row in db:urows('SELECT COUNT(*) FROM auth') do
+		if row == 1 then
+			for row in db:nrows('SELECT * FROM auth') do
+				if row['user_id'] ~= nil or
+					row['token'] ~= nil or
+					row['user_id'] ~= '' or
+					row['token'] ~= '' then
+					-- test token with API call
+					call_uber('https://cn-dc1.geixahba.com/support/tickets', 'POST', nil, star_rating_request(row['user_id'], row['token']), check_auth)
+				else
+					composer.gotoScene('login')	-- if no user exists send to login page
+				end
 			end
+		else
+			composer.gotoScene('login') -- this catch all is for first users with nothing in the db
 		end
-	else
-		composer.gotoScene('login') -- this catch all is for first users with nothing in the db
 	end
+	db:close() -- for politeness 
 end
-
-db:close() -- for politeness 

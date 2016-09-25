@@ -30,13 +30,23 @@ local db_num_rides
 local star_rating
 local driver_name
 
------------------
+----------------
 -- Refresh page
------------------
+----------------
 local function refresh(event)
 	if event.phase == 'ended' then
 		composer.removeScene('authed')
 		composer.gotoScene('authed')
+	end
+end
+
+-------------
+-- Show menu
+-------------
+local function show_menu(event)
+	if event.phase == 'ended' then
+		composer.removeScene('authed')
+		composer.gotoScene('menu')
 	end
 end
 
@@ -50,12 +60,12 @@ background:addEventListener('tap', background)
 ui_group:insert(background)
 
 -- Help button
-local help_button = widget.newButton {
+local menu_button = widget.newButton {
 	left = 175,
 	top = 20,
 	labelColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
-	id = 'help_button',
-	onEvent = show_help,
+	id = 'menu_button',
+	onEvent = show_menu,
 	shape = 'roundedRect',
 	width = 120,
 	height = 40,
@@ -64,9 +74,9 @@ local help_button = widget.newButton {
 	strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
 	strokeWidth = 2
 }
-help_button:setEnabled(true)
-help_button:setLabel('Show Help')
-ui_group:insert(help_button)
+menu_button:setEnabled(true)
+menu_button:setLabel('Menu')
+ui_group:insert(menu_button)
 
 -- Refresh button
 local refresh_button = widget.newButton {
@@ -133,10 +143,20 @@ function parse_ride_history(response)
 	local response = json.decode(response) -- what does this look like if the user has no Uber rides yet?
 	-- get number of trips
 	local num_rides = tonumber(#response['trips'])
-	if debug_gen then
-		print('Current # rides: ' ..num_rides)
+	local real_rides = 0
+	
+	for key, trip in pairs(response['trips']) do
+		if response['trips'][key]['status'] == 'completed' then
+			real_rides = real_rides + 1
+		end
 	end
-	return num_rides
+	
+	if debug_gen then
+		print('Total rides: ' ..num_rides)
+		print('Cancelled rides: ' ..num_rides - real_rides)
+	end
+	
+	return real_rides
 end
 
 ------------------------
@@ -198,7 +218,7 @@ for row in db:urows("SELECT COALESCE((SELECT MAX(num_rides) FROM history), 0)") 
 
 		-- display help
 		native.showAlert('Welcome! Now what?',
-			'Looks like it\'s your first time using ' ..app_name.. '! Here\'s the low-down: ' ..app_name.. ' will calculate the star rating your most recent Uber driver gave you. You need to open ' ..app_name.. ' after each ride otherwise the rating it calculates won\'t be accurate. Have fun!', {'Okay'})
+			'Looks like it\'s your first time using ' .._app_name.. '! Here\'s the low-down: ' .._app_name.. ' will calculate the star rating your most recent Uber driver gave you. You need to open ' .._app_name.. ' after each ride otherwise the rating it calculates won\'t be accurate. Have fun!', {'Okay'})
 
 		local driver_text = {
 			text = 'Come back after you\'ve taken a ride',
@@ -309,7 +329,7 @@ function main_func()
 
 			else
 				native.showAlert('Ready. Set. Go!',
-					'You\'re all set to ' ..app_name.. '! Remember to open the app after EVERY Uber ride to accurately calculate what your driver rated you.', {'Okay'})
+					'You\'re all set to ' .._app_name.. '! Remember to open the app after EVERY Uber ride to accurately calculate what your driver rated you.', {'Okay'})
 
 				local driver_text = {
 					text = 'Come back after you\'ve taken a ride',
@@ -343,7 +363,7 @@ function main_func()
 		-- Next refresh/open the first conditional ^^ will fire
 		-----------------------------------------------------------------------
 		native.showAlert('You neglected me :(',
-			'You\'ve taken multiple Uber rides without opening ' ..app_name.. '. The rating for your most recent trip won\'t be accurate.', {'Okay'})
+			'You\'ve taken multiple Uber rides without opening ' .._app_name.. '. The rating for your most recent trip won\'t be accurate.', {'Okay'})
 
 		do_calc(1, 0)
 

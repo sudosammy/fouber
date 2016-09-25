@@ -23,7 +23,7 @@ local json = require('json') -- we do JSON things in here
 function show_help(event)
 	if event.phase == 'ended' then
 		native.showAlert('It\'s all pretty simple',
-			'Here\'s the low-down: ' ..app_name.. ' will calculate the star rating your most recent Uber driver gave you. You need to open ' ..app_name.. ' after each Uber ride to keep the ratings accurate. Have fun!', { "Got It", "More Info" }, goto_github)
+			'Here\'s the low-down: ' .._app_name.. ' will calculate the star rating your most recent Uber driver gave you. You need to open ' .._app_name.. ' after each Uber ride to keep the ratings accurate. Have fun!', { "Got It", "More Info" }, goto_github)
 	end
 end
 
@@ -76,7 +76,7 @@ function goto_github(event)
 	if event.action == 'clicked' then
 		local i = event.index
 		if i == 2 then -- second button (More Info) was clicked
-			system.openURL(github_url)
+			system.openURL(_github_url)
 		end
 	end
 end

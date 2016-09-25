@@ -39,15 +39,15 @@ You can update by following the steps you took to install the app. Just re-downl
 **Don't use the app on networks you don't trust** Little sanitisation is performed on the response from the Uber API. This means in a Man-in-the-Middle (MitM) scenario an attacker could possibly perform attacks against the app and recover your Uber ```userid``` and ```token```. I wouldn't open the app on public WiFi.
 
 ### Known Bugs/Quirks
- - If you cancel a ride the driver doesn't rate you but the ride is still included in your history count. This likely affects the accuracy of Fouber (haven't tested)
  - If the rider hasn't taken any rides before using Fouber; it might just crash (haven't tested)
+ - Updating the app wipes the database forcing the user to re-login and losing their most recent rating
+ - Upon logging out, re-authenticating and logging out again (without closing/re-opening the app) will fail to correctly log the user out
 
 ### Future Improvements (Don't hold your breath)
  - iOS install instructions
  - Parameterised queries
  - Show current star rating on app landing page
  - Move away from using pop up messages to notify the user
- - Logout functionality
  - Support for rating your driver from inside the Fouber app
  - Move all messages into a separate file for easier management (and also translation)
 

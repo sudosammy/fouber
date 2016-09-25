@@ -48,7 +48,7 @@ function authenticate(event)
 			end
 			
 			db:close() -- ma lady
-			ui_group:removeSelf() -- cleanup
+			composer.removeScene('login')
 			composer.gotoScene('authed') -- move to authed page
 		else
 			-- if not - prompt for credentials again
@@ -167,5 +167,16 @@ ui_group:insert(login_button)
 --------------------------------
 native.showAlert('Please Authenticate',
 	'Authenticate with your Uber credentials. This application does not store your credentials.', {'Okay'})
+
+-- destroy()
+function scene:destroy(event)
+	-- Code here runs prior to the removal of scene's view
+	ui_group:removeSelf()
+end
+
+----------------------------------
+-- Scene event function listeners
+----------------------------------
+scene:addEventListener('destroy', scene)
 
 return scene
