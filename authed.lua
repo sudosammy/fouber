@@ -227,7 +227,7 @@ for row in db:urows("SELECT COALESCE((SELECT MAX(num_rides) FROM history), 0)") 
 			width = 300,
 			align = 'center',
 			font = font,
-			fontSize = 26,
+			fontSize = 24,
 			anchorY = 0,
 		}
 		-- supporting text for page
@@ -338,7 +338,7 @@ function main_func()
 					width = 300,
 					align = 'center',
 					font = font,
-					fontSize = 26,
+					fontSize = 24,
 					anchorY = 0,
 				}
 				-- supporting text for page
@@ -450,7 +450,7 @@ function display_stars(drivers_rating, cur_star_rating)
 		width = 300,
 		align = 'center',
 		font = font,
-		fontSize = 26,
+		fontSize = 24,
 		anchorY = 0,
 	}
 	-- supporting text for page
@@ -469,7 +469,7 @@ function display_stars(drivers_rating, cur_star_rating)
 		width = 300,
 		align = 'center',
 		font = font,
-		fontSize = 26,
+		fontSize = 24,
 		anchorY = 0,
 	}
 	-- supporting text for page

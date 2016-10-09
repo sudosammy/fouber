@@ -21,7 +21,7 @@ debug_disable_updating 	= false
 -- /DEBUG
 
 -- Globals
-_version 		= '1.1.0'
+_version 		= '1.1.1'
 _github_url 	= 'https://github.com/sudosammy/fouber'
 _app_name 		= 'Fouber'
 _W 				= display.pixelWidth

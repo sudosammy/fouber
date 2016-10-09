@@ -35,7 +35,7 @@ end
 local function logout(event)
 	if event.phase == 'ended' then
 		native.showAlert('Logout?',
-			'Are you sure you want to logout of ' .._app_name.. '? This won\'t log you out of the Uber app.', { "No", "Logout" }, do_logout)
+			'Are you sure you want to logout of ' .._app_name.. '? This won\'t log you out of the Uber app.', { 'No', 'Logout' }, do_logout)
 	end
 end
 
@@ -114,6 +114,20 @@ local logout_button = widget.newButton {
 logout_button:setEnabled(true)
 logout_button:setLabel('Logout')
 ui_group:insert(logout_button)
+
+-- Version
+local version_text = {
+	text = _app_name.. ' version ' .._version,
+	x = 80,
+	y = 200,
+	align = 'right',
+	font = font,
+	fontSize = 12,
+}
+
+local version_text = display.newText(version_text)
+version_text:setTextColor(0, 0, 0)
+ui_group:insert(version_text)
 
 -- destroy()
 function scene:destroy(event)
