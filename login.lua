@@ -127,10 +127,14 @@ function submit_login(event)
 			native.showAlert('Empty Username/Password',
 				'Authenticate with your Uber credentials. This application does not store your credentials.', {'Okay'})
 		else
+			local device_id = system.getInfo("deviceID")
 			local headers = {
 				['Content-Type'] = 'application/json; charset=UTF-8',
 				['x-uber-client-name'] = 'client',
 				['x-uber-device'] = 'android',
+				-- ['x-uber-device-ids'] = 'authId:xxxxxx, permId:xxxxxx, deviceImei:35xxx,
+				['x-uber-device-ids'] = 'deviceImei:' ..device_id,
+				['User-Agent'] = 'okhttp/12.7.2',
 			}
 			local body = json.encode({
 				['password'] = password,
